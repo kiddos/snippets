@@ -96,8 +96,8 @@ snippet docx
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 snippet html
-	<html>
-	${1}
+	<html lang="${1:en}">
+	${2}
 	</html>
 snippet xhtml
 	<html xmlns="http://www.w3.org/1999/xhtml">
@@ -109,7 +109,8 @@ snippet body
 	</body>
 snippet head
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8"`Close()`>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>${1:`substitute(Filename('', 'Page Title'), '^.', '\u&', '')`}</title>
 		${2}
 	</head>
@@ -140,7 +141,7 @@ snippet bootstrap
 snippet br
 	<br`Close()[1:]`>
 snippet div
-	<div id="${1:name}">
+	<div class="${1:container}">
 		${2}
 	</div>
 # Embed QT Movie
@@ -157,10 +158,11 @@ snippet movie
 			pluginspage="http://www.apple.com/quicktime/download/"
 		`Close()[1:]`>
 	</object>${6}
+snippet iframe
+	<iframe width="${1}" height="${2}" src="${3}"></iframe>
 snippet fieldset
 	<fieldset id="$1">
 		<legend>${1:name}</legend>
-
 		${3}
 	</fieldset>
 snippet form
@@ -200,13 +202,18 @@ snippet select
 	</select>${5}
 snippet table
 	<table border="${1:0}">
-		<tr>
-			<th>${2:Header}</th>
-			<th>${3:Data}</th>
-		</tr>
-		<tr>
-			<td>${4}</td>
-		</tr>
+		<thead>
+			<tr>
+				<th>${2:Header}</th>
+				<th>${3:Data}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>${4}</td>
+				<td></td>
+			</tr>
+		</tbody>
 	</table>${5}
 snippet ul
 	<ul style="${1}">
@@ -289,3 +296,12 @@ snippet p
 	<p>${1}</p>
 snippet hr
 	<hr>
+#bootstrap tags
+snippet aclose
+	<a href="${1}" class="close" data-dismiss="${2}" aria-label="close">&times;</a>
+snippet button
+	<button type="button" class="btn ${1:btn-default/primary/success/info/warning/danger/link}">${2}</button>
+snippet caret
+	<span class="caret"></span>
+snippet badge
+	<span class="badge">${1}</span>
