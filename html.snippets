@@ -159,33 +159,34 @@ snippet movie
 		`Close()[1:]`>
 	</object>${6}
 snippet iframe
-	<iframe width="${1}" height="${2}" src="${3}"></iframe>
+	<iframe width="${1}" height="${2}" src="${3}"></iframe>${4}
 snippet fieldset
 	<fieldset id="$1">
 		<legend>${1:name}</legend>
 		${3}
 	</fieldset>
 snippet form
-	<form action="${1:`Filename('$1_submit')`}" method="${2:post}" accept-charset="utf-8">
+	<form action="${1:`Filename('$1_submit')`}" method="${2:post}" accept-charset="utf-8" role="form">
 		${3}
 		<p><input type="submit" value="${4:submit}"`Close()`></p>
 	</form>
 snippet h1
-	<h1 id="${1:heading}">${2:$1}</h1>
+	<h1 id="${1:heading}">${2:$1}</h1>${3}
 snippet h2
-	<h2 id="${1:heading}">${2:$1}</h2>
+	<h2 id="${1:heading}">${2:$1}</h2>${3}
 snippet h3
-	<h3 id="${1:heading}">${2:$1}</h3>
+	<h3 id="${1:heading}">${2:$1}</h3>${3}
 snippet h4
-	<h4 id="${1:heading}">${2:$1}</h4>
+	<h4 id="${1:heading}">${2:$1}</h4>${3}
 snippet h5
-	<h5 id="${1:heading}">${2:$1}</h5>
+	<h5 id="${1:heading}">${2:$1}</h5>${3}
 snippet h6
-	<h6 id="${1:heading}">${2:$1}</h6>
+	<h6 id="${1:heading}">${2:$1}</h6>${3}
 snippet input
 	<input type="${1:text/submit/hidden/button}" name="${2:some_name}" value="${3}"`Close()`>${4}
 snippet label
-	<label for="${2:$1}">${1:name}</label><input type="${3:text/submit/hidden/button}" name="${4:$2}" value="${5}" id="${6:$2}"`Close()`>${7}
+	<label for="${1:name}">${2:name}</label>
+	<input type="${3}" name="${4:$1}" value="${5}" id="${6:$1}"`Close()`>${7}
 snippet link
 	<link rel="${1:stylesheet}" href="${2:/css/master.css}" type="text/css" media="${3:screen}" charset="utf-8"`Close()`>${4}
 snippet mailto
@@ -223,6 +224,8 @@ snippet ol
 	<ol type="${1:1/A/a/I/i} style="${2}">
 		<li>${3}</li>
 	</ol>${4}
+snippet li
+	<li${1}>${2}</li>${3}
 snippet dl
 	<dl>
 		<dt>${1:item}</dt>
@@ -298,10 +301,149 @@ snippet hr
 	<hr>
 #bootstrap tags
 snippet aclose
-	<a href="${1}" class="close" data-dismiss="${2}" aria-label="close">&times;</a>
+	<a href="${1}" class="close" data-dismiss="${2}" aria-label="close">&times;</a>${3}
 snippet button
-	<button type="button" class="btn ${1:btn-default/primary/success/info/warning/danger/link}">${2}</button>
+	<button type="${1}" class="btn ${2}">${3}</button>${4}
 snippet caret
 	<span class="caret"></span>
 snippet badge
-	<span class="badge">${1}</span>
+	<span class="badge">${1}</span>${2}
+snippet label-default
+	<span class="label label-default">${1}</span>${2}
+snippet progress-bar
+	<div class="progress-bar ${1}" role="progressbar" aria-valuenow="${2:0}" aria-valuemin="${3:0}" aria-valuemax="${4:100}" style="width:$2%">
+		${5}
+	</div>${6}
+snippet progressbar
+	<div class="progress">
+		<div class="progress-bar ${1}" role="progressbar" aria-valuenow="${2:0}" aria-valuemin="${3:0}" aria-valuemax="${4:100}" style="width:$2%">
+			${5}
+		</div>
+	</div>${6}
+snippet pagination
+	<ul class="pagination${1}">
+		<li><a href="#">1</a></li>
+		<li><a href="#">2</a></li>
+		<li><a href="#">3</a></li>
+		<li><a href="#">4</a></li>
+		<li><a href="#">5</a></li>
+		<li><a href="#">6</a></li>${2}
+	</ul>${3}
+snippet pager
+	<ul class="pager${1}">
+		<li><a href="#">Previous</a></li>
+		<li><a href="#">Next</a></li>
+	</ul>${3}
+snippet list-group
+	<ul class="list-group${1}">
+		<li class="list-group-item">${2:Item1}</li>
+		<li class="list-group-item">${3:Item2}</li>
+	</ul>${4}
+snippet list-group-header
+	<div class="list-group">
+		<a href="#" class="list-group-item">
+			<${1:h3} class="list-group-item-heading">${2}</$1>
+			<p class="list-group-item-text">${3}</p>
+		</a>
+	</div>${4}
+snippet panel
+	<div class="panel panel-default">
+		<div class="panel-body">${1}</div>
+	</div>${2}
+snippet dropdown
+	<div class="dropdown">
+		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+		${1:Dropdown}
+		<span class="caret"></span></button>
+		<ul class="dropdown-menu">
+			<li role="presentation"><a href="#" role="menuitem">${2:Item}</a></li>
+		</ul>
+	</div>
+snippet dropup
+	<div class="dropup">
+		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+		${1:Dropdown}
+		<span class="caret"></span></button>
+		<ul class="dropdown-menu">
+			<li role="presentation"><a href="#" role="menuitem">${2:Item}</a></li>
+		</ul>
+	</div>
+snippet list-inline
+	<ul class="list-inline">
+		<li><a href="#">Home</a></li>
+		<li><a href="#">Menu 1</a></li>
+		<li><a href="#">Menu 2</a></li>
+		<li><a href="#">Menu 3</a></li>
+	</ul>
+snippet nav-tabs
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#">${1:Home}</a></li>
+		<li><a href="#">${2:Menu1}</a></li>
+	</ul>${3}
+snippet li-dropdown
+	<li class="dropdown">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+		${1:Menu1}
+		<span class="caret"></span></a>
+		<ul class="dropdown-menu">
+			<li><a href="#">${2:Submenu1}</a></li>
+		</ul>
+	</li>${3}
+snippet nav-pills
+	<ul class="nav nav-pills">
+		<li class="active"><a href="#">${1:Home}</a></li>
+		<li><a href="#">${2:Menu1}</a></li>
+	</ul>${3}
+snippet dynamic-tabs
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#home">${1:Home}</a></li>
+		<li><a data-toggle="tab" href="#menu1">${2:Menu1}</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="home" class="tab-pane fade in active">
+			<h3>$1</h3>
+			${3}
+		</div>
+		<div id="menu1" class="tab-pane fade">
+			<h3>$2</h3>
+			${4}
+		</div>
+	</div>
+snippet navbar
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">${1:WebsiteName}</a>
+			</div>
+			<div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">${2:Home}</a></li>
+					<li><a href="#">${3:Page1}</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>${4}
+snippet navbar-collapse
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar1">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">${1:WebsiteName}</a>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">${2:Home}</a></li>
+					<li><a href="#">${3:Page1}</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+snippet form-group
+	<div class="form-group">
+		${1}
+	</div>
