@@ -4,6 +4,8 @@ snippet #!
 snippet imp
 	import ${1:module}
 # Module Docstring
+snippet doc
+	'''${1:Documents}'''
 snippet docs
 	'''
 	File: ${1:`Filename('$1.py', 'foo.py')`}
@@ -13,23 +15,52 @@ snippet docs
 snippet wh
 	while ${1:condition}:
 		${2:# code...}
+snippet whi
+	while ${1:condition}:
+		${2:# code...}
+snippet whil
+	while ${1:condition}:
+		${2:# code...}
+snippet while
+	while ${1:condition}:
+		${2:# code...}
+snippet fo
+	for ${1:needle} in ${2:haystack}:
+		${3:# code...}
 snippet for
 	for ${1:needle} in ${2:haystack}:
 		${3:# code...}
 # New Class
 snippet cl
 	class ${1:ClassName}(${2:object}):
-		"""${3:docstring for $1}"""
+		def __init__(self, ${4:arg}):
+			${5:super($1, self).__init__()}
+			self.$4 = $4
+			${6}
+snippet cla
+	class ${1:ClassName}(${2:object}):
+		def __init__(self, ${4:arg}):
+			${5:super($1, self).__init__()}
+			self.$4 = $4
+			${6}
+snippet clas
+	class ${1:ClassName}(${2:object}):
+		def __init__(self, ${4:arg}):
+			${5:super($1, self).__init__()}
+			self.$4 = $4
+			${6}
+snippet class
+	class ${1:ClassName}(${2:object}):
 		def __init__(self, ${4:arg}):
 			${5:super($1, self).__init__()}
 			self.$4 = $4
 			${6}
 # New Function
-snippet def
+snippet deff
 	def ${1:fname}(${2:`indent('.') ? 'self' : ''`}):
 		"""${3:docstring for $1}"""
 		${4:pass}
-snippet deff
+snippet def
 	def ${1:fname}(${2:`indent('.') ? 'self' : ''`}):
 		${3}
 # New Method
@@ -84,3 +115,10 @@ snippet ifmain
 # __magic__
 snippet _
 	__${1:init}__${2}
+
+snippet tk
+	import Tkinter
+
+	root = Tkinter.Tk()
+	${1}
+	root.mainloop()
