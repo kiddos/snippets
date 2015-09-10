@@ -1,17 +1,55 @@
 # #import <...>
 snippet Imp
 	#import <${1:Cocoa/Cocoa.h}>${2}
+snippet Impo
+	#import <${1:Cocoa/Cocoa.h}>${2}
+snippet Impor
+	#import <${1:Cocoa/Cocoa.h}>${2}
+snippet Import
+	#import <${1:Cocoa/Cocoa.h}>${2}
 # #import "..."
 snippet imp
+	#import "${1:`Filename()`.h}"${2}
+snippet impo
+	#import "${1:`Filename()`.h}"${2}
+snippet impor
+	#import "${1:`Filename()`.h}"${2}
+snippet import
 	#import "${1:`Filename()`.h}"${2}
 # @selector(...)
 snippet sel
 	@selector(${1:method}:)${3}
+snippet sele
+	@selector(${1:method}:)${3}
+snippet selec
+	@selector(${1:method}:)${3}
+snippet select
+	@selector(${1:method}:)${3}
+snippet selecto
+	@selector(${1:method}:)${3}
+snippet selector
+	@selector(${1:method}:)${3}
 # @"..." string
 snippet s
 	@"${1}"${2}
+snippet stri
+	@"${1}"${2}
+snippet strin
+	@"${1}"${2}
+snippet string
+	@"${1}"${2}
 # Object
 snippet o
+	${1:NSObject} *${2:foo} = [${3:$1 alloc}]${4};${5}
+snippet ob
+	${1:NSObject} *${2:foo} = [${3:$1 alloc}]${4};${5}
+snippet obj
+	${1:NSObject} *${2:foo} = [${3:$1 alloc}]${4};${5}
+snippet obje
+	${1:NSObject} *${2:foo} = [${3:$1 alloc}]${4};${5}
+snippet objec
+	${1:NSObject} *${2:foo} = [${3:$1 alloc}]${4};${5}
+snippet object
 	${1:NSObject} *${2:foo} = [${3:$1 alloc}]${4};${5}
 # NSLog(...)
 snippet log
@@ -161,6 +199,18 @@ snippet ret
 snippet rel
 	[${1:foo} release];
 	${2:$1 = nil;}
+snippet rele
+	[${1:foo} release];
+	${2:$1 = nil;}
+snippet relea
+	[${1:foo} release];
+	${2:$1 = nil;}
+snippet releas
+	[${1:foo} release];
+	${2:$1 = nil;}
+snippet release
+	[${1:foo} release];
+	${2:$1 = nil;}
 # autorelease
 snippet arel
 	[${1:foo} autorelease];
@@ -172,13 +222,27 @@ snippet pool
 # Throw an exception
 snippet except
 	NSException *${1:badness};
-	$1 = [NSException exceptionWithName:@"${2:$1Name}"
-	                             reason:@"${3}"
-	                           userInfo:nil];
+	$1 = [NSException exceptionWithName:@"${2:$1Name}" reason:@"${3}" userInfo:nil];
 	[$1 raise];
 snippet prag
 	#pragma mark ${1:foo}
 snippet cl
 	@class ${1:Foo};${2}
+snippet cla
+	@class ${1:Foo};${2}
+snippet clas
+	@class ${1:Foo};${2}
+snippet class
+	@class ${1:Foo};${2}
 snippet color
 	[[NSColor ${1:blackColor}] set];
+snippet foundation
+	#import <Foundation/Foundation.h>
+
+	int main(int argc, char *argv[])
+	{
+		NSAutoreleasePool *${1:pool} = [[NSAutoreleasePool alloc] init];
+		${2:/* code */}
+		[$1 drain];
+		return 0;
+	}

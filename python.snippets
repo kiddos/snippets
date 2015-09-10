@@ -122,3 +122,42 @@ snippet tk
 	root = Tkinter.Tk()
 	${1}
 	root.mainloop()
+snippet pygame
+	import pygame
+
+	# color definition
+
+	# object definition
+
+	# some function
+
+	# init
+	status = pygame.init()
+	if status[1] != 0:
+	    print("ERROR: fail to init PyGame")
+	    quit()
+
+	# game data
+	FPS = 60
+	window_size = (${1:800}, ${2:600})
+	game_display = pygame.display.set_mode(window_size)
+
+	# title
+	pygame.display.set_caption('${3:Title}')
+
+	# main loop
+	running = True
+	clock = pygame.time.Clock()
+
+	while running:
+	    for event in pygame.event.get():
+	        if event.type == pygame.QUIT:
+	            running = False
+
+	    # update the screen
+	    pygame.display.update()
+	    clock.tick(FPS)
+
+	# exit
+	pygame.quit()
+	quit()

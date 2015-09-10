@@ -1,0 +1,52 @@
+snippet c
+	CC = gcc
+	CFLAGS = -g -Wall -Wextra -rdynamic
+	EXTRA = -DNDEBUG -c
+	LIBS = -lm
+
+	PREFIX = /usr/local
+	
+	TARGET = ${1:ProjectName}
+	OBJECTS = ${2:objects}
+	
+	all: $(TARGET)
+	
+	$(TARGET): $(OBJECTS)
+		$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
+
+	# cleaner
+	clean:
+		rm -f *.o
+	
+	# install
+		cp $(TARGET) $(PREFIX)/bin
+	
+	# uninstall
+		rm -f $(PREFIX)/bin/$(TARGET)
+snippet cd
+	$1.o: ${1:dependency}.c
+		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
+snippet cde
+	$1.o: ${1:dependency}.c
+		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
+snippet cdep
+	$1.o: ${1:dependency}.c
+		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
+snippet cdepe
+	$1.o: ${1:dependency}.c
+		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
+snippet cdepen
+	$1.o: ${1:dependency}.c
+		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
+snippet cdepend
+	$1.o: ${1:dependency}.c
+		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
+snippet objc
+	GNUSTEP_MAKEFILES = /usr/share/GNUstep/Makefiles
+
+	include $(GNUSTEP_MAKEFILES)/common.make
+
+	TOOL_NAME = ${1:ProjectName}
+	LogTest_OBJC_FILES = ${2:source.m}
+
+	include $(GNUSTEP_MAKEFILES)/tool.make
