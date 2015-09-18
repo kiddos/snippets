@@ -4,17 +4,63 @@ snippet proto
 	function(${3:first_argument}) {
 		${4:// body...}
 	};
-# Function
-snippet fun
-	function ${1:function_name} (${2:argument}) {
-		${3:// body...}
-	}
 # Anonymous Function
 snippet f
-	function(${1}) {${2}};
+	function(${1}) {
+		${2:// code ...}
+	};
+	${3}
+snippet fu
+	function(${1}) {
+		${2:// code ...}
+	};
+	${3}
+# Function
+snippet fun
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
+snippet func
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
+snippet funct
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
+snippet functi
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
+snippet functio
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
+snippet function
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
+snippet funci
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
+snippet funcio
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
+snippet funcion
+	function ${1:function_name}(${2:arg}) {
+		${3:// code ...}
+	}${4}
 # if
 snippet if
-	if (${1:true}) {${2}};
+	if (${1:true}) {
+		${2:// code ...}
+	}
+snippet else
+	else {
+		${1:// code ...}
+	}
 # if ... else
 snippet ife
 	if (${1:true}) {${2}}
@@ -25,29 +71,43 @@ snippet t
 # switch
 snippet switch
 	switch(${1:expression}) {
-		case '${3:case}':
-			${4:// code}
+		case '${2:0}':
+			${3:// code}
 			break;
-		${5}
+		${4}
 		default:
-			${2:// code}
+			break;
 	}
 # case
+snippet ca
+	case '${1:case}':
+		${2:// code}
+		break;
+	${3}
+snippet cas
+	case '${1:case}':
+		${2:// code}
+		break;
+	${3}
 snippet case
 	case '${1:case}':
 		${2:// code}
 		break;
 	${3}
 # for (...) {...}
+snippet fo
+	for (var ${1:i} = 0; $1 < ${2} ; $1++) {
+		${3}
+	}
 snippet for
-	for (var ${2:i} = 0; $2 < ${1:Things}.length; $2${3:++}) {
-		${4:$1[$2]}
-	};
-# for (...) {...} (Improved Native For-Loop)
-snippet forr
-	for (var ${2:i} = ${1:Things}.length - 1; $2 >= 0; $2${3:--}) {
-		${4:$1[$2]}
-	};
+	for (var ${1:i} = 0; $1 < ${2} ; $1++) {
+		${3}
+	}
+# foreach
+snippet foreach
+	for (var ${1:i} in ${2}) {
+		${3}
+	}${4}
 # while (...) {...}
 snippet wh
 	while (${1:/* condition */}) {
@@ -61,14 +121,84 @@ snippet do
 # Object Method
 snippet :f
 	${1:method_name}: function(${2:attribute}) {
-		${4}
-	}${3:,}
+		${3}
+	},${4}
+snippet :fu
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet :fuc
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet :func
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet :funct
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet :functi
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet :functio
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet :function
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet me
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet met
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet meth
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet metho
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
+snippet method
+	${1:method_name}: function(${2:attribute}) {
+		${3}
+	},${4}
 # setTimeout function
 snippet timeout
 	setTimeout(function() {${3}}${2}, ${1:10};
+snippet interval
+	setInterval(function() {${3}}${2}, ${1:10};
 # Get Elements
 snippet get
 	getElementsBy${1:TagName}('${2}')${3}
 # Get Element
 snippet gett
 	getElementBy${1:Id}('${2}')${3}
+snippet createServer
+	var http = require("http");
+	
+	function onRequest(request, response) {
+		console.log("client request: " + request.url);
+		response.writeHead(200, {"Content-Type": "text/plain"});
+		${1:// code ...}
+		response.end();
+	}
+	
+	http.createServer(onRequest).listen(${2:port});
+	console.log("Server is running ...");
+	${3}
+snippet http.request
+	http.request({hostname: ${1:example.com}}, function(response) {
+		response.setEncoding("utf8");
+		response.on("data", function(chunk) {
+			console.log(chunk);
+		});
+	}).end();
