@@ -55,7 +55,7 @@ snippet doctype HTML 4.01 Transitional
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""
 	"http://www.w3.org/TR/html4/loose.dtd">
 snippet doctype HTML 5
-	<!DOCTYPE HTML>
+	<!DOCTYPE html>
 snippet doctype XHTML 1.0 Frameset
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -78,7 +78,7 @@ snippet doct
 	"http://www.w3.org/TR/html4/loose.dtd">
 # HTML Doctype 5
 snippet doct5
-	<!DOCTYPE HTML>
+	<!DOCTYPE html>
 # XHTML Doctype 1.0 Frameset
 snippet docxf
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
@@ -121,23 +121,17 @@ snippet script
 		${1}
 	</script>${2}
 snippet scriptsrc
-	<script src="${1}.js" type="text/javascript" charset="utf-8"></script>${2}
+	<script type="text/javascript" charset="utf-8" src="${1:js/main.js}></script>${2}
 snippet style
-	<style type="text/css" media="${1:screen}">
+	<style type="text/css">
 		${2}
 	</style>${3}
 snippet base
 	<base href="${1}" target="${2}"`Close()`>
 snippet charset
-	<meta charset="utf-8">
+	<meta charset="utf-8"`Close()`>
 snippet viewport
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-snippet jquery
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-snippet bootstrap
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1"`Close()`>
 snippet br
 	<br`Close()[1:]`>
 snippet div
@@ -195,7 +189,7 @@ snippet <h5
 snippet <h6
 	h6 id="${1:heading}">${2:$1}</h6>${3}
 snippet input
-	<input type="${1:text/submit/hidden/button}" name="${2:some_name}" value="${3}"`Close()`>${4}
+	<input type="${1:text/submit/hidden/button}" value="${3}"`Close()`>${4}
 snippet label
 	<label for="${1:name}">${2:name}</label>
 	<input type="${3}" name="${4:$1}" value="${5}" id="${6:$1}"`Close()`>${7}
@@ -467,3 +461,146 @@ snippet canvas
 	<canvas id="canvas" class="canvas">
 		Sorry, Your Web Browser does not support Canvas Element
 	</canvas>
+# javascript libraries
+snippet jquery
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+snippet bootstrap
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+snippet angularjs
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+# templates
+snippet template basic
+	<!DOCTYPE html>
+
+	<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>${1:Title}</title>
+	</head>
+	<body>
+	<div class="container">
+		<h1>$1</h1>
+		${2}
+	</div>
+	</body>
+	</html>
+snippet template bootstrap
+	<!DOCTYPE html>
+
+	<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>${1:Title}</title>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="jumbotron">
+				<h1>$1</h1>
+				<p>Made by Joseph Yu</p>
+			</div>
+			${2}
+
+			<div class="footer">
+				Made by Joseph Yu 2015/9/15
+			</div>
+		</div>
+	</body>
+	</html>
+snippet template canvas
+	<!DOCTYPE html>
+
+	<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>${1:Title}</title>
+		<link rel="stylesheet" href="./css/master.css" type="text/css"
+				charset="utf-8">
+	</head>
+	<body>
+		<div class="titlebar">
+			<h1 class="title">$1</h1>
+		</div>
+
+		<canvas id="canvas" class="canvas">
+			Sorry, Your Web Browser does not support Canvas Element
+		</canvas>
+		<script type="text/javascript" src="${2:main.js}" charset="utf-8">
+		</script>
+
+		<div class="footer">
+			Made by Joseph Yu 2015/9/15
+		</div>
+	</body>
+	</html>
+snippet template non-reponsive
+	<!DOCTYPE html>
+
+	<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="content-language" content="en"/>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<title>${1:Title}</title>
+	</head>
+	<body>
+	<div class="container">
+		<h1 class="header">$1</h1>
+		${2}
+	</div>
+	</body>
+	</html>
+snippet template angularjs
+	<html lang="en" data-ng-app="">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>${1:Title}</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+
+	</head>
+	<body>
+	<div>
+		<h1>$1</h1>
+	</div>
+	</body>
+	</html>
+snippet template login
+	<html lang="en" data-ng-app="">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>${1:Title}</title>
+		<link rel="stylesheet" type="text/css" href="${2:css/master.css}">
+	</head>
+	<body>
+	<div class="container">
+		<div class="header">
+			<h3>$1</h3>
+		</div>
+		<div>
+			<p>Username: <input type="text" id="username"></p>
+			<p>Password: <input type="password" id="password"></p>
+			<input type="submit" id="submit">
+		</div>
+
+		<script type="text/javascript" charset="utf-8">
+			var username = document.getElementById("username");
+			var password = document.getElementById("password");
+			var submit = document.getElementById("submit");
+			submit.onclick = function() {
+				var u = username.value;
+				var p = password.value;
+				alert("Username: " + u + "\nPassword: " + p + "\nsubmitted");
+			};
+		</script>
+	</div>
+	</body>
+	</html>
