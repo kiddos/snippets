@@ -47,6 +47,13 @@ snippet backspace
 # ⎋
 snippet escape
 	&#x238B;
+# lorem ipsum
+snippet lorem
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+snippet Lorem
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
 # Generic Doctype
 snippet doctype HTML 4.01 Strict
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN""
@@ -124,8 +131,8 @@ snippet scriptsrc
 	<script type="text/javascript" charset="utf-8" src="${1:js/main.js}></script>${2}
 snippet style
 	<style type="text/css">
-		${2}
-	</style>${3}
+		${1}
+	</style>${2}
 snippet base
 	<base href="${1}" target="${2}"`Close()`>
 snippet charset
@@ -307,7 +314,7 @@ snippet hr
 	<hr>
 #bootstrap tags
 snippet aclose
-	<a href="${1}" class="close" data-dismiss="${2}" aria-label="close">&times;</a>${3}
+	<a href="${1:#}" class="close" data-dismiss="${2}" aria-label="close">&times;</a>${3}
 snippet button
 	<button type="${1}" class="btn ${2}">${3}</button>${4}
 snippet caret
@@ -457,6 +464,7 @@ snippet form-group
 snippet react
 	<script src="https://fb.me/react-0.13.3.min.js"></script>
 	<script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+# canvas
 snippet canvas
 	<canvas id="canvas" class="canvas">
 		Sorry, Your Web Browser does not support Canvas Element
@@ -586,9 +594,12 @@ snippet template login
 			<h3>$1</h3>
 		</div>
 		<div>
-			<p>Username: <input type="text" id="username"></p>
-			<p>Password: <input type="password" id="password"></p>
-			<input type="submit" id="submit">
+			<form action="${1:`Filename('$1_submit')`}" method="${2:post}" accept-charset="utf-8" role="form">
+				<p>Username: <input type="text" id="username"></p>
+				<p>Password: <input type="password" id="password"></p>
+				${3}
+				<p><input type="submit" value="${4:submit}"`Close()`></p>
+			</form>
 		</div>
 
 		<script type="text/javascript" charset="utf-8">
@@ -604,3 +615,5 @@ snippet template login
 	</div>
 	</body>
 	</html>
+# javascript and css snippets
+extends javascript, css

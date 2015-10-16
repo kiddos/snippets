@@ -23,6 +23,32 @@ snippet c
 	
 	# uninstall
 		rm -f $(PREFIX)/bin/$(TARGET)
+
+snippet cpp
+	CPP = g++
+	CPPFLAGS = -g -Wall -Wextra -rdynamic
+	EXTRA = -DNDEBUG -c
+	LIBS = -lm
+
+	PREFIX = /usr/local
+
+	TARGET = ${1:ProjectName}
+	OBJECTS = ${2:objects}
+
+	all: $(TARGET)
+	
+	$(TARGET): $(OBJECTS)
+		$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
+
+	# cleaner
+	clean:
+		rm -f *.o
+	
+	# install
+		cp $(TARGET) $(PREFIX)/bin
+	
+	# uninstall
+		rm -f $(PREFIX)/bin/$(TARGET)
 snippet cd
 	$1.o: ${1:dependency}.c
 		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
@@ -50,3 +76,16 @@ snippet objc
 	LogTest_OBJC_FILES = ${2:source.m}
 
 	include $(GNUSTEP_MAKEFILES)/tool.make
+snippet root
+	all:
+		$(MAKE) -C src $@
+	
+	clean:
+		$(MAKE) -C src $@
+
+	test:
+		$(MAKE) -C src $@
+
+	.PHONY:
+		all clean test
+
