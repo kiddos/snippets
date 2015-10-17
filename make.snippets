@@ -5,22 +5,22 @@ snippet c
 	LIBS = -lm
 
 	PREFIX = /usr/local
-	
+
 	TARGET = ${1:ProjectName}
 	OBJECTS = ${2:objects}
-	
+
 	all: $(TARGET)
-	
+
 	$(TARGET): $(OBJECTS)
 		$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
 
 	# cleaner
 	clean:
 		rm -f *.o
-	
+
 	# install
 		cp $(TARGET) $(PREFIX)/bin
-	
+
 	# uninstall
 		rm -f $(PREFIX)/bin/$(TARGET)
 
@@ -36,17 +36,17 @@ snippet cpp
 	OBJECTS = ${2:objects}
 
 	all: $(TARGET)
-	
+
 	$(TARGET): $(OBJECTS)
 		$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
 
 	# cleaner
 	clean:
 		rm -f *.o
-	
+
 	# install
 		cp $(TARGET) $(PREFIX)/bin
-	
+
 	# uninstall
 		rm -f $(PREFIX)/bin/$(TARGET)
 snippet cd
@@ -79,7 +79,7 @@ snippet objc
 snippet root
 	all:
 		$(MAKE) -C src $@
-	
+
 	clean:
 		$(MAKE) -C src $@
 

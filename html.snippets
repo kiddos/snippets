@@ -230,7 +230,7 @@ snippet table
 		</tbody>
 	</table>${5}
 snippet ul
-	<ul style="${1}">
+	<ul class="${1:list}">
 		<li>${2}</li>
 	</ul>${3}
 snippet ol
@@ -489,10 +489,10 @@ snippet template basic
 		<title>${1:Title}</title>
 	</head>
 	<body>
-	<div class="container">
-		<h1>$1</h1>
-		${2}
-	</div>
+		<div class="container">
+			<h1>$1</h1>
+			${2}
+		</div>
 	</body>
 	</html>
 snippet template bootstrap
@@ -559,10 +559,10 @@ snippet template non-reponsive
 		<title>${1:Title}</title>
 	</head>
 	<body>
-	<div class="container">
-		<h1 class="header">$1</h1>
-		${2}
-	</div>
+		<div class="container">
+			<h1 class="header">$1</h1>
+			${2}
+		</div>
 	</body>
 	</html>
 snippet template angularjs
@@ -575,9 +575,9 @@ snippet template angularjs
 
 	</head>
 	<body>
-	<div>
-		<h1>$1</h1>
-	</div>
+		<div>
+			<h1>$1</h1>
+		</div>
 	</body>
 	</html>
 snippet template login
@@ -589,30 +589,30 @@ snippet template login
 		<link rel="stylesheet" type="text/css" href="${2:css/master.css}">
 	</head>
 	<body>
-	<div class="container">
-		<div class="header">
-			<h3>$1</h3>
-		</div>
-		<div>
-			<form action="${1:`Filename('$1_submit')`}" method="${2:post}" accept-charset="utf-8" role="form">
-				<p>Username: <input type="text" id="username"></p>
-				<p>Password: <input type="password" id="password"></p>
-				${3}
-				<p><input type="submit" value="${4:submit}"`Close()`></p>
-			</form>
-		</div>
+		<div class="container">
+			<div class="header">
+				<h3>$1</h3>
+			</div>
+			<div>
+				<form action="${1:`Filename('$1_submit')`}" method="${2:post}" accept-charset="utf-8" role="form">
+					<p>Username: <input type="text" id="username"></p>
+					<p>Password: <input type="password" id="password"></p>
+					${3}
+					<p><input type="submit" value="${4:submit}"`Close()`></p>
+				</form>
+			</div>
 
-		<script type="text/javascript" charset="utf-8">
-			var username = document.getElementById("username");
-			var password = document.getElementById("password");
-			var submit = document.getElementById("submit");
-			submit.onclick = function() {
-				var u = username.value;
-				var p = password.value;
-				alert("Username: " + u + "\nPassword: " + p + "\nsubmitted");
-			};
-		</script>
-	</div>
+			<script type="text/javascript" charset="utf-8">
+				var username = document.getElementById("username");
+				var password = document.getElementById("password");
+				var submit = document.getElementById("submit");
+				submit.onclick = function() {
+					var u = username.value;
+					var p = password.value;
+					alert("Username: " + u + "\nPassword: " + p + "\nsubmitted");
+				};
+			</script>
+		</div>
 	</body>
 	</html>
 # javascript and css snippets
