@@ -1,54 +1,3 @@
-snippet c
-	CC = gcc
-	CFLAGS = -g -Wall -Wextra -rdynamic
-	EXTRA = -DNDEBUG -c
-	LIBS = -lm
-
-	PREFIX = /usr/local
-
-	TARGET = ${1:ProjectName}
-	OBJECTS = ${2:objects}
-
-	all: $(TARGET)
-
-	$(TARGET): $(OBJECTS)
-		$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
-
-	# cleaner
-	clean:
-		rm -f *.o
-
-	# install
-		cp $(TARGET) $(PREFIX)/bin
-
-	# uninstall
-		rm -f $(PREFIX)/bin/$(TARGET)
-
-snippet cpp
-	CPP = g++
-	CPPFLAGS = -g -Wall -Wextra -rdynamic
-	EXTRA = -DNDEBUG -c
-	LIBS = -lm
-
-	PREFIX = /usr/local
-
-	TARGET = ${1:ProjectName}
-	OBJECTS = ${2:objects}
-
-	all: $(TARGET)
-
-	$(TARGET): $(OBJECTS)
-		$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
-
-	# cleaner
-	clean:
-		rm -f *.o
-
-	# install
-		cp $(TARGET) $(PREFIX)/bin
-
-	# uninstall
-		rm -f $(PREFIX)/bin/$(TARGET)
 snippet cd
 	$1.o: ${1:dependency}.c
 		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
@@ -67,7 +16,79 @@ snippet cdepen
 snippet cdepend
 	$1.o: ${1:dependency}.c
 		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
-snippet objc
+snippet template c
+	CC = gcc
+	CFLAGS = -g -Wall -Wextra -rdynamic
+	EXTRA = -fPIC -fopenmp -fpthread
+	LIBS = -lm
+
+	PREFIX = /usr/local
+
+	TARGET = ${1:ProjectName}
+	OBJECTS = $1
+
+	all: $(TARGET)
+
+	$(TARGET): $(OBJECTS)
+		$(CC) $(CFLAGS) -o $@ $(OBJECTS).o $(LIBS)
+
+	$1.o: $1.c
+		$(CC) $(CFLAGS) -c $1.c
+
+
+	# cleaner
+	clean:
+		rm -f *.o
+
+	# install
+	install: all
+		install -d $(DESTDIR)/$(PREFIX)/bin
+		install $(TARGET) $(DESTDIR)/$(PREFIX)/bin
+
+	# uninstall
+	uninstall:
+		rm -f $(PREFIX)/bin/$(TARGET)
+
+	.PHONY:
+		all clean install uninstall
+
+snippet template cpp
+	CPP = g++
+	CPPFLAGS = -g -Wall -Wextra -rdynamic
+	EXTRA = -fPIC -fopenmp -fpthread
+	LIBS = -lm
+
+	PREFIX = /usr/local
+
+	TARGET = ${1:ProjectName}
+	OBJECTS = $1
+
+	all: $(TARGET)
+
+	$(TARGET): $(OBJECTS)
+		$(CPP) $(CPPFLAGS) -o $@ $(OBJECTS) $(LIBS)
+
+	$1.o: $1.cpp
+		$(CPP) $(CPPFLAGS) -c $1.cpp
+
+
+	# cleaner
+	clean:
+		rm -f *.o
+
+	# install
+	install: all
+		install -d $(DESTDIR)/$(PREFIX)/bin
+		install $(TARGET) $(DESTDIR)/$(PREFIX)/bin
+
+	# uninstall
+	uninstall:
+		rm -f $(PREFIX)/bin/$(TARGET)
+
+	.PHONY:
+		all clean install uninstall
+
+snippet template objc
 	GNUSTEP_MAKEFILES = /usr/share/GNUstep/Makefiles
 
 	include $(GNUSTEP_MAKEFILES)/common.make
@@ -76,7 +97,8 @@ snippet objc
 	LogTest_OBJC_FILES = ${2:source.m}
 
 	include $(GNUSTEP_MAKEFILES)/tool.make
-snippet root
+
+snippet template root
 	all:
 		$(MAKE) -C src $@
 
@@ -89,3 +111,22 @@ snippet root
 	.PHONY:
 		all clean test
 
+snippet template qtconsole
+	# ---------------------------
+	#
+	# Qt console application
+	#
+	# ---------------------------
+
+	QT       += core
+
+	QT       -= gui
+
+	TARGET   =  console
+	CONFIG   += console
+	CONFIG   -= app_bundle
+
+	TEMPLATE = app
+
+
+	SOURCES += main.cpp
