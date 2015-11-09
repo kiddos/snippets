@@ -25,12 +25,12 @@ snippet template c
 	PREFIX = /usr/local
 
 	TARGET = ${1:ProjectName}
-	OBJECTS = $1
+	OBJECTS = $1.o ${2}
 
 	all: $(TARGET)
 
 	$(TARGET): $(OBJECTS)
-		$(CC) $(CFLAGS) -o $@ $(OBJECTS).o $(LIBS)
+		$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
 
 	$1.o: $1.c
 		$(CC) $(CFLAGS) -c $1.c
@@ -38,7 +38,7 @@ snippet template c
 
 	# cleaner
 	clean:
-		rm -f *.o
+		rm -f *.o $(TARGET)
 
 	# install
 	install: all
@@ -130,3 +130,9 @@ snippet template qtconsole
 
 
 	SOURCES += main.cpp
+snippet :
+	${1:target}: $1.o
+		$(${2:CC}) -o $@ $1.o
+
+	$1.o: $1.c
+		$(${2:CC}) $(${3:CFLAGS}) -c $1.c

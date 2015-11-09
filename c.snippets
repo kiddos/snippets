@@ -1,8 +1,16 @@
 #templates
+snippet template blank
+	#include <stdio.h>
+
+	int main(${2:int argc, char *argv[]})
+	{
+		${1:// code ...}
+		return 0;
+	}${3}
 snippet template hello world
 	#include <stdio.h>
 
-	int main(int argc, char *argv[])
+	int main(void)
 	{
 		printf("Hello World\n");
 		return 0;
@@ -17,15 +25,16 @@ snippet template SDL2
 	#define WIDTH 640
 	#define HEIGHT 480
 
-	#define FPS_FONT "Sans.ttf"
+	#define FPS_FONT "tama.ttf"
 	#define FPS_SIZE 12
 
 	const double FPS = 60;
 
-	int init();
-	SDL_Texture *init_fps_tex(TTF_Font *font, uint64_t frames,
-			uint32_t tp, SDL_Renderer *ren);
-	void render_fps(SDL_Renderer *ren, SDL_Texture *fps_tex);
+	int main_init();
+	SDL_Texture *main_init_fps_texture(TTF_Font *font,
+			uint64_t frames, uint32_t tp,
+			SDL_Renderer *ren, SDL_Color color);
+	void main_render_fps(SDL_Renderer *ren, SDL_Texture *fps_tex);
 
 	int main(int argc, char *argv[])
 	{
@@ -36,29 +45,34 @@ snippet template SDL2
 		TTF_Font *font = NULL;
 		SDL_Event e;
 		SDL_bool running = SDL_TRUE;
+		SDL_Color fc;
+		fc.r = 255;
+		fc.a = 255;
+		fc.g = 255;
+		fc.b = 255;
 
 		uint32_t st = 0, ttp = 0;
 		uint32_t fst = 0, ftp = 0;
-		frames = 0;
+		uint32_t frames = 0;
 
-		if(!init()) return 1;
+		if(!main_init()) return 1;
 
-		win = SDL_CreateWindow("${1:WindowTitle}",
+		win = SDL_CreateWindow("Test",
 				0, 0, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
-		if(!window)
+		if(!win)
 		{
 			fprintf(stderr, "fail to create SDL window, error: %s\n",
 					SDL_GetError());
 			return 1;
 		}
 
-		ren = SDL_CreateRenderer(window, -1,
-				SDL_RENDERER_ACCELERATED);
-		if(!renderer)
+		ren = SDL_CreateRenderer(win, -1,
+				SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		if(!ren)
 		{
 			fprintf(stderr, "fail to create SDL renderer, error: %s\n",
 					SDL_GetError());
-			SDL_DestroyWindow(window);
+			SDL_DestroyWindow(win);
 			return 1;
 		}
 
@@ -67,18 +81,18 @@ snippet template SDL2
 		{
 			fprintf(stderr, "fail to open TTF font, error: %s\n",
 					TTF_GetError());
-			SDL_DestroyWindow(window);
-			SDL_DestroyRenderer(renderer);
+			SDL_DestroyWindow(win);
+			SDL_DestroyRenderer(ren);
 			return 1;
 		}
 
-		fps = init_fps_tex(font, frames, ttp, ren);
+		fps = main_init_fps_texture(font, frames, ttp, ren, fc);
 		if(!fps)
 		{
 			fprintf(stderr, "fail to create fps texture, error: %s\n",
 					SDL_GetError());
-			SDL_DestroyWindow(window);
-			SDL_DestroyRenderer(renderer);
+			SDL_DestroyWindow(win);
+			SDL_DestroyRenderer(ren);
 			TTF_CloseFont(font);
 			return 1;
 		}
@@ -97,41 +111,39 @@ snippet template SDL2
 			frames ++;
 			if(frames == 0) st = 0;
 
+			// compute start time and fps
 			ttp = SDL_GetTicks() - st;
 			if(fps) SDL_DestroyTexture(fps);
-			fps = init_fps_tex(font, frames, ttp, ren);
+			fps = main_init_fps_texture(font, frames, ttp, ren, fc);
 
 			// render
-			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-			SDL_RenderClear(renderer);
+			SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+			SDL_RenderClear(ren);
 			// fps
-			render_fps_texture(renderer, fps);
-			// wall
-			SDL_SetRenderDrawColor(renderer, 0, 124, 255, 0);
-			SDL_RenderFillRect(renderer, &wall);
-			// objects
-			SDL_SetRenderDrawColor(renderer, 77, 202, 77, 0);
-			for(i = 0 ; i < OBJ_NUM ; i ++)
-				SDL_RenderFillRect(renderer, &objects[i]);
-			SDL_RenderPresent(renderer);
+			main_render_fps(ren, fps);
+			// drawings
+
+
+			SDL_RenderPresent(ren);
 			// end of rendering
 
-			frame_time_passed = SDL_GetTicks() - frame_start_time;
-			if(frame_time_passed < 1000 / FPS)
-				SDL_Delay(1000 / FPS - frame_time_passed);
+			// control fps
+			ftp = SDL_GetTicks() - fst;
+			if(ftp < 1000 / FPS)
+				SDL_Delay(1000 / FPS - ftp);
 		}
 
-		SDL_DestroyWindow(window);
-		SDL_DestroyRenderer(renderer);
+		// free memory
+		SDL_DestroyWindow(win);
+		SDL_DestroyRenderer(ren);
 		SDL_DestroyTexture(fps);
 		TTF_CloseFont(font);
 		return 0;
 	}
 
-	int init()
+	int main_init()
 	{
-		const int IMG_FLAG =
-				IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_JPG;
+		const unsigned int IMG_FLAG = IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_JPG;
 		if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 		{
 			fprintf(stderr, "fail to initialize SDL, error: %s\n",
@@ -156,49 +168,63 @@ snippet template SDL2
 		return 1;
 	}
 
-	SDL_Texture *create_fps_texture(TTF_Font *font, long long int frames, Uint32 time_passed,
-			SDL_Renderer *renderer)
+	void main_render_fps(SDL_Renderer *renderer, SDL_Texture *texture)
 	{
-		SDL_Surface *surf = NULL;
-		SDL_Texture *texture = NULL;
-		const SDL_Color text_color = {255, 255, 255, 255};
-		const int str_size = 256;
-		char str[str_size];
+		SDL_Rect dst;
 
-		memset(str, '\0', str_size);
-		if(time_passed == 0)
-			sprintf(str, "FPS: --");
-		else
-			sprintf(str, "FPS: %.2lf", (double) frames / time_passed * 1000);
+		SDL_QueryTexture(texture, NULL, NULL, &dst.w, &dst.h);
+		dst.x = WIDTH - 65;
+		dst.y = 0;
+		SDL_RenderCopy(renderer, texture, NULL, &dst);
+	}
 
-		surf = TTF_RenderText_Blended(font, str, text_color);
-		if(!surf)
+	SDL_Texture* main_init_fps_texture(TTF_Font *font,
+			uint64_t frames, uint32_t tp,
+			SDL_Renderer *ren, SDL_Color color)
+	{
+		SDL_Surface* surf = NULL;
+		SDL_Texture* texture = NULL;
+
+		if (!font || !ren)
 		{
-			fprintf(stderr, "fail to render TTF text, error: %s\n", TTF_GetError());
+			fprintf(stderr, "null pointer\n");
 			return NULL;
 		}
 
-		texture = SDL_CreateTextureFromSurface(renderer, surf);
-		if(!texture)
+		char text[1024] = {'\0'};
+		sprintf(text, "fps: %.2lf", frames * 1000.0 / tp);
+		surf = TTF_RenderText_Blended(font, text, color);
+		if (!surf)
 		{
-			fprintf(stderr, "fail to create texture from surface, error: %s\n", SDL_GetError());
+			fprintf(stderr, "Fail to render text to sdl surface\n");
+			return NULL;
+		}
+
+		texture = SDL_CreateTextureFromSurface(ren, surf);
+		if (!texture)
+		{
+			fprintf(stderr, "Fail to create texture from surface\n");
 			SDL_FreeSurface(surf);
+			return NULL;
 		}
 
 		SDL_FreeSurface(surf);
 		return texture;
 	}
+snippet template c opencv2
+	#include <opencv2/core/core_c.h>
+	#include <opencv2/imgproc/imgproc_c.h>
+	#include <opencv2/highgui/highgui_c.h>
+	#include <opencv2/objdetect/objdetect_c.h>
 
-	void render_fps_texture(SDL_Renderer *renderer, SDL_Texture *texture)
+	#include <stdio.h>
+
+	int main(int argc, char *argv[])
 	{
-		SDL_Rect dst;
-
-		SDL_QueryTexture(texture, NULL, NULL, &dst.w, &dst.h);
-		dst.x = WINDOW_WIDTH - 65;
-		dst.y = 0;
-		SDL_RenderCopy(renderer, texture, NULL, &dst);
+		${1:// code ...}
+		return 0;
 	}
-snippet template opencv2
+snippet template c++ opencv2
 	#include <opencv2/core/core.hpp>
 	#include <opencv2/imgproc/imgproc.hpp>
 	#include <opencv2/highgui/highgui.hpp>
@@ -212,7 +238,7 @@ snippet template opencv2
 
 	int main(int argc, char *argv[])
 	{
-		${1}
+		${1:// code ...}
 		return 0;
 	}
 # main()
@@ -407,61 +433,47 @@ snippet switch
 	}$3
 # Function Declaration
 snippet fu
-	${1:void} ${2:function_name}(${3:arguments});
-
-	$1 $2($3)
+	${1:void} ${2:`Filename()`_function_name}(${3:void})
 	{
 		${4:/* code */}
 		return ${5};
-	}
+	}${6}
 snippet fun
-	${1:void} ${2:function_name}(${3});${4}
-
-	$1 $2($3)
+	${1:void} ${2:`Filename()`_function_name}(${3:void})
 	{
 		${4:/* code */}
 		return ${5};
-	}
+	}${6}
 snippet func
-	${1:void} ${2:function_name}(${3});${4}
-
-	$1 $2($3)
+	${1:void} ${2:`Filename()`_function_name}(${3:void})
 	{
 		${4:/* code */}
 		return ${5};
-	}
+	}${6}
 snippet funct
-	${1:void} ${2:function_name}(${3});${4}
-
-	$1 $2($3)
+	${1:void} ${2:`Filename()`_function_name}(${3:void})
 	{
 		${4:/* code */}
 		return ${5};
-	}
+	}${6}
 snippet functi
-	${1:void} ${2:function_name}(${3});${4}
-
-	$1 $2($3)
+	${1:void} ${2:`Filename()`_function_name}(${3:void})
 	{
 		${4:/* code */}
 		return ${5};
-	}
+	}${6}
 snippet functio
-	${1:void} ${2:function_name}(${3});${4}
-
-	$1 $2($3)
+	${1:void} ${2:`Filename()`_function_name}(${3:void})
 	{
 		${4:/* code */}
 		return ${5};
-	}
+	}${6}
 snippet function
-	${1:void} ${2:function_name}(${3});${4}
-
-	$1 $2($3)
+	${1:void} ${2:`Filename()`_function_name}(${3:void})
 	{
 		${4:/* code */}
 		return ${5};
-	}
+	}${6}
 # Function Body
 snippet funb
 	${1:void} ${2:function_name}(${3})
