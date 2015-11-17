@@ -385,15 +385,15 @@ snippet while
 	}
 # For Loop
 snippet fo
-	for (${1:uint32_t} ${2:i} = 0 ; $2 < ${3:bound}; $2 ++)
+	for (${1})
 	{
-		${4: /* code */}
-	}${5}
+		${2: /* code */}
+	}${3}
 snippet for
-	for (${1:uint32_t} ${2:i} = 0 ; $2 < ${3:bound}; $2 ++)
+	for (${1})
 	{
-		${4: /* code */}
-	}${5}
+		${2: /* code */}
+	}${3}
 # Custom For Loop
 snippet forr
 	for (${1:i} = 0 ; $1 < ${2:count} ; $1 ${3:++})
