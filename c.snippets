@@ -248,6 +248,11 @@ snippet main
 		${1}
 		return 0;
 	}
+snippet vmain
+	void main(void)
+	{
+		${1}
+	}
 # #include <...>
 snippet in
 	#include <${1:stdio}.h>${2}
@@ -332,6 +337,8 @@ snippet once
 	${2}
 
 	#endif /* end of include guard: $1 */
+snippet pragma once
+	#pragma once
 # If Condition
 snippet if
 	if (${1:/* condition */})
@@ -622,11 +629,7 @@ snippet fprintf
 	fprintf(${1:stderr}, "${2:%s}\n"${3});${4}
 snippet fprintf(
 	fprintf(${1:stderr}, "${2:%s}\n"${3}
-snippet {
-	{
-		${1:/* code */)
-	
-# unsigned 
+# unsigned
 snippet un
 	unsigned
 snippet uns
