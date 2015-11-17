@@ -18,8 +18,8 @@ snippet cdepend
 		$(CC) $(CFLAGS) $(EXTRA) $1.c $(LIBS)
 snippet template c
 	CC = gcc
-	CFLAGS = -g -Wall -Wextra -rdynamic
-	EXTRA = -fPIC -fopenmp -fpthread
+	CFLAGS = -g -Wall -Wextra -rdynamic -fPIC
+	CONCURRENCY = -fopenmp -fpthread
 	LIBS = -lm
 
 	PREFIX = /usr/local
@@ -28,6 +28,9 @@ snippet template c
 	OBJECTS = $1.o ${2}
 
 	all: $(TARGET)
+
+	test:
+		$(MAKE) -C src $@
 
 	$(TARGET): $(OBJECTS)
 		$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
@@ -49,13 +52,12 @@ snippet template c
 	uninstall:
 		rm -f $(PREFIX)/bin/$(TARGET)
 
-	.PHONY:
-		all clean install uninstall
+	.PHONY: all clean install uninstall
 
 snippet template cpp
 	CPP = g++
-	CPPFLAGS = -g -Wall -Wextra -rdynamic
-	EXTRA = -fPIC -fopenmp -fpthread
+	CPPFLAGS = -g -Wall -Wextra -rdynamic -fPIC
+	CONCURRENCY = -fopenmp -fpthread
 	LIBS = -lm
 
 	PREFIX = /usr/local
@@ -64,6 +66,9 @@ snippet template cpp
 	OBJECTS = $1
 
 	all: $(TARGET)
+
+	test:
+		$(MAKE) -C src $@
 
 	$(TARGET): $(OBJECTS)
 		$(CPP) $(CPPFLAGS) -o $@ $(OBJECTS) $(LIBS)
@@ -85,8 +90,7 @@ snippet template cpp
 	uninstall:
 		rm -f $(PREFIX)/bin/$(TARGET)
 
-	.PHONY:
-		all clean install uninstall
+	.PHONY: all clean install uninstall
 
 snippet template objc
 	GNUSTEP_MAKEFILES = /usr/share/GNUstep/Makefiles
