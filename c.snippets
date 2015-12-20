@@ -2,16 +2,14 @@
 snippet template blank
 	#include <stdio.h>
 
-	int main(${2:int argc, char *argv[]})
-	{
+	int main(${2:int argc, char *argv[]}) {
 		${1:// code ...}
 		return 0;
-	}${3}
+	}
 snippet template hello world
 	#include <stdio.h>
 
-	int main(void)
-	{
+	int main(void) {
 		printf("Hello World\n");
 		return 0;
 	}
@@ -36,8 +34,7 @@ snippet template SDL2
 			SDL_Renderer *ren, SDL_Color color);
 	void main_render_fps(SDL_Renderer *ren, SDL_Texture *fps_tex);
 
-	int main(int argc, char *argv[])
-	{
+	int main(int argc, char *argv[]) {
 		SDL_Window *win = NULL;
 		SDL_Renderer *ren = NULL;
 		SDL_Texture *fps = NULL;
@@ -55,12 +52,11 @@ snippet template SDL2
 		uint32_t fst = 0, ftp = 0;
 		uint32_t frames = 0;
 
-		if(!main_init()) return 1;
+		if (!main_init()) return 1;
 
 		win = SDL_CreateWindow("Test",
 				0, 0, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
-		if(!win)
-		{
+		if (!win) {
 			fprintf(stderr, "fail to create SDL window, error: %s\n",
 					SDL_GetError());
 			return 1;
@@ -68,8 +64,7 @@ snippet template SDL2
 
 		ren = SDL_CreateRenderer(win, -1,
 				SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		if(!ren)
-		{
+		if (!ren) {
 			fprintf(stderr, "fail to create SDL renderer, error: %s\n",
 					SDL_GetError());
 			SDL_DestroyWindow(win);
@@ -77,8 +72,7 @@ snippet template SDL2
 		}
 
 		font = TTF_OpenFont(FPS_FONT, FPS_SIZE);
-		if(!font)
-		{
+		if (!font) {
 			fprintf(stderr, "fail to open TTF font, error: %s\n",
 					TTF_GetError());
 			SDL_DestroyWindow(win);
@@ -87,8 +81,7 @@ snippet template SDL2
 		}
 
 		fps = main_init_fps_texture(font, frames, ttp, ren, fc);
-		if(!fps)
-		{
+		if (!fps) {
 			fprintf(stderr, "fail to create fps texture, error: %s\n",
 					SDL_GetError());
 			SDL_DestroyWindow(win);
@@ -98,11 +91,9 @@ snippet template SDL2
 		}
 
 		// main loop
-		while(running)
-		{
+		while (running) {
 			fst = SDL_GetTicks();
-			while(SDL_PollEvent(&e))
-			{
+			while(SDL_PollEvent(&e)) {
 				if(e.type == SDL_QUIT)
 					running = SDL_FALSE;
 			}
@@ -141,25 +132,21 @@ snippet template SDL2
 		return 0;
 	}
 
-	int main_init()
-	{
+	int main_init() {
 		const unsigned int IMG_FLAG = IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_JPG;
-		if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
-		{
+		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)) {
 			fprintf(stderr, "fail to initialize SDL, error: %s\n",
 					SDL_GetError());
 			return 0;
 		}
 		atexit(SDL_Quit);
-		if((IMG_Init(IMG_FLAG) & IMG_FLAG) != IMG_FLAG)
-		{
+		if ((IMG_Init(IMG_FLAG) & IMG_FLAG) != IMG_FLAG) {
 			fprintf(stderr, "fail to initialize IMG, error: %s\n",
 					SDL_GetError());
 			return 0;
 		}
 		atexit(IMG_Quit);
-		if(TTF_Init() == -1)
-		{
+		if (TTF_Init() == -1) {
 			fprintf(stderr, "fail to initialize TTF, error: %s\n",
 					SDL_GetError());
 			return 0;
@@ -168,8 +155,7 @@ snippet template SDL2
 		return 1;
 	}
 
-	void main_render_fps(SDL_Renderer *renderer, SDL_Texture *texture)
-	{
+	void main_render_fps(SDL_Renderer *renderer, SDL_Texture *texture) {
 		SDL_Rect dst;
 
 		SDL_QueryTexture(texture, NULL, NULL, &dst.w, &dst.h);
@@ -180,13 +166,11 @@ snippet template SDL2
 
 	SDL_Texture* main_init_fps_texture(TTF_Font *font,
 			uint64_t frames, uint32_t tp,
-			SDL_Renderer *ren, SDL_Color color)
-	{
+			SDL_Renderer *ren, SDL_Color color) {
 		SDL_Surface* surf = NULL;
 		SDL_Texture* texture = NULL;
 
-		if (!font || !ren)
-		{
+		if (!font || !ren) {
 			fprintf(stderr, "null pointer\n");
 			return NULL;
 		}
@@ -194,15 +178,13 @@ snippet template SDL2
 		char text[1024] = {'\0'};
 		sprintf(text, "fps: %.2lf", frames * 1000.0 / tp);
 		surf = TTF_RenderText_Blended(font, text, color);
-		if (!surf)
-		{
+		if (!surf) {
 			fprintf(stderr, "Fail to render text to sdl surface\n");
 			return NULL;
 		}
 
 		texture = SDL_CreateTextureFromSurface(ren, surf);
-		if (!texture)
-		{
+		if (!texture) {
 			fprintf(stderr, "Fail to create texture from surface\n");
 			SDL_FreeSurface(surf);
 			return NULL;
@@ -219,53 +201,46 @@ snippet template c opencv2
 
 	#include <stdio.h>
 
-	int main(int argc, char *argv[])
-	{
+	int main(int argc, char *argv[]) {
 		${1:// code ...}
 		return 0;
 	}
 snippet template c++ opencv2
-	#include <opencv2/core/core.hpp>
-	#include <opencv2/imgproc/imgproc.hpp>
-	#include <opencv2/highgui/highgui.hpp>
-	#include <opencv2/objdetect/objdetect.hpp>
+	#include <opencv2/core.hpp>
+	#include <opencv2/imgproc.hpp>
+	#include <opencv2/highgui.hpp>
+	#include <opencv2/objdetect.hpp>
 
 	#include <iostream>
 	#include <cstdio>
 
-	using namespace cv;
-	using namespace std;
-
-	int main(int argc, char *argv[])
-	{
+	int main(int argc, char *argv[]) {
 		${1:// code ...}
 		return 0;
 	}
 # main()
 snippet main
-	int main(int argc, char *argv[])
-	{
+	int main(int argc, char *argv[]) {
 		${1}
 		return 0;
 	}
 snippet vmain
-	void main(void)
-	{
+	void main(void) {
 		${1}
 	}
 # #include <...>
 snippet in
-	#include <${1:stdio}.h>${2}
+	#include <${1:stdio.h}>${2}
 snippet inc
-	#include <${1:stdio}.h>${2}
+	#include <${1:stdio.h}>${2}
 snippet incl
-	#include <${1:stdio}.h>${2}
+	#include <${1:stdio.h}>${2}
 snippet inclu
-	#include <${1:stdio}.h>${2}
+	#include <${1:stdio.h}>${2}
 snippet includ
-	#include <${1:stdio}.h>${2}
+	#include <${1:stdio.h}>${2}
 snippet include
-	#include <${1:stdio}.h>${2}
+	#include <${1:stdio.h}>${2}
 # #include "..."
 snippet Inc
 	#include "${1:`Filename("$1.h")`}"${2}
@@ -337,253 +312,184 @@ snippet once
 	${2}
 
 	#endif /* end of include guard: $1 */
-snippet pragma once
+snippet ponce
 	#pragma once
 # If Condition
 snippet if
-	if (${1:/* condition */})
-	{
-		${2:/* code */}
+	if (${1:/* condition */}) {
+		${2:/* code ... */}
 	}
 snippet el
-	else
-	{
+	else {
 		${1}
 	}
 snippet els
-	else
-	{
+	else {
 		${1}
 	}
 snippet else
-	else
-	{
+	else {
 		${1}
 	}
+snippet elif
+	else if (${1:/* condition */}) {
+		${2:/* code ... */}
+	}
 # Tertiary conditional
-snippet t
+snippet ?
 	${1:/* condition */} ? ${2:a} : ${3:b}
 # Do While Loop
 snippet do
-	do
-	{
+	do {
 		${2:/* code */}
 	} while (${1:/* condition */});
 # While Loop
 snippet wh
-	while (${1:/* condition */})
-	{
-		${2:/* code */}
+	while (${1:/* condition */}) {
+		${2:/* code ... */}
 	}
 snippet whi
-	while (${1:/* condition */})
-	{
-		${2:/* code */}
+	while (${1:/* condition */}) {
+		${2:/* code ... */}
 	}
 snippet whil
-	while (${1:/* condition */})
-	{
-		${2:/* code */}
+	while (${1:/* condition */}) {
+		${2:/* code ... */}
 	}
 snippet while
 	while (${1:/* condition */})
 	{
-		${2:/* code */}
+		${2:/* code ... */}
 	}
 # For Loop
 snippet fo
-	for (${1})
-	{
-		${2: /* code */}
-	}${3}
+	for (${1:/* conditions ... */}) {
+		${2: /* code ... */}
+	}
 snippet for
-	for (${1})
-	{
-		${2: /* code */}
-	}${3}
+	for (${1:/* conditions ... */}) {
+		${2: /* code ... */}
+	}
 # Custom For Loop
 snippet forr
-	for (${1:i} = 0 ; $1 < ${2:count} ; $1 ${3:++})
-	{
-		${4:/* code */}
+	for (${1:i = 0} ; ${2:i < count} ; ${3:i ++}) {
+		${4: /* code ... */}
 	}
 # switch case
 snippet sw
-	switch (${1:variable})
-	{
-	case ${2:1}:
-		break;
-	}$3
+	switch (${1:variable}) {
+		case ${2:1}:
+			break;
+	}
 snippet swi
-	switch (${1:variable})
-	{
-	case ${2:1}:
-		break;
-	}$3
+	switch (${1:variable}) {
+		case ${2:1}:
+			break;
+	}
 snippet swit
-	switch (${1:variable})
-	{
-	case ${2:1}:
-		break;
-	}$3
+	switch (${1:variable}) {
+		case ${2:1}:
+			break;
+	}
 snippet switc
-	switch (${1:variable})
-	{
-	case ${2:1}:
-		break;
-	}$3
+	switch (${1:variable}) {
+		case ${2:1}:
+			break;
+	}
 snippet switch
-	switch (${1:variable})
-	{
-	case ${2:1}:
-		break;
-	}$3
+	switch (${1:variable}) {
+		case ${2:1}:
+			break;
+	}
 # Function Declaration
 snippet fu
-	${1:void} ${2:`Filename()`_function_name}(${3:void})
-	{
+	${1:void} ${2:`Filename()`_function_name}(${3:void}) {
 		${4:/* code */}
 		return ${5};
-	}${6}
+	}
 snippet fun
-	${1:void} ${2:`Filename()`_function_name}(${3:void})
-	{
+	${1:void} ${2:`Filename()`_function_name}(${3:void}) {
 		${4:/* code */}
 		return ${5};
-	}${6}
+	}
 snippet func
-	${1:void} ${2:`Filename()`_function_name}(${3:void})
-	{
+	${1:void} ${2:`Filename()`_function_name}(${3:void}) {
 		${4:/* code */}
 		return ${5};
-	}${6}
+	}
 snippet funct
-	${1:void} ${2:`Filename()`_function_name}(${3:void})
-	{
+	${1:void} ${2:`Filename()`_function_name}(${3:void}) {
 		${4:/* code */}
 		return ${5};
-	}${6}
+	}
 snippet functi
-	${1:void} ${2:`Filename()`_function_name}(${3:void})
-	{
+	${1:void} ${2:`Filename()`_function_name}(${3:void}) {
 		${4:/* code */}
 		return ${5};
-	}${6}
+	}
 snippet functio
-	${1:void} ${2:`Filename()`_function_name}(${3:void})
-	{
+	${1:void} ${2:`Filename()`_function_name}(${3:void}) {
 		${4:/* code */}
 		return ${5};
-	}${6}
+	}
 snippet function
-	${1:void} ${2:`Filename()`_function_name}(${3:void})
-	{
+	${1:void} ${2:`Filename()`_function_name}(${3:void}) {
 		${4:/* code */}
 		return ${5};
-	}${6}
+	}
 # Function Body
 snippet funb
-	${1:void} ${2:function_name}(${3})
-	{
+	${1:void} ${2:function_name}(${3}) {
 		${4:/* code */}
 	}
 # Typedef
-snippet td
+snippet typedef new_type
 	typedef ${1:int} ${2:Type};${3}
-snippet ty
-	typedef ${1:int} ${2:Type};${3}
-snippet typ
-	typedef ${1:int} ${2:Type};${3}
-snippet type
-	typedef ${1:int} ${2:Type};${3}
-snippet typed
-	typedef ${1:int} ${2:Type};${3}
-snippet typede
-	typedef ${1:int} ${2:Type};${3}
-snippet typedef
-	typedef ${1:int} ${2:Type};${3}
-# Typedef struct
-snippet tds
-	typedef struct ${2:_$1 }{
-		${3:/* data */}
-	} ${1:`Filename('$1_t', 'name')`};
-snippet typedef s
-	typedef struct ${2:_$1 }{
-		${3:/* data */}
-	} ${1:`Filename('$1_t', 'name')`};
-snippet typedef st
-	typedef struct ${2:_$1 }{
-		${3:/* data */}
-	} ${1:`Filename('$1_t', 'name')`};
-snippet typedef str
-	typedef struct ${2:_$1 }{
-		${3:/* data */}
-	} ${1:`Filename('$1_t', 'name')`};
-snippet typedef stru
-	typedef struct ${2:_$1 }{
-		${3:/* data */}
-	} ${1:`Filename('$1_t', 'name')`};
-snippet typedef struc
-	typedef struct ${2:_$1 }{
-		${3:/* data */}
-	} ${1:`Filename('$1_t', 'name')`};
 snippet typedef struct
-	typedef struct ${2:_$1 }{
+	typedef struct ${2:$1} {
 		${3:/* data */}
 	} ${1:`Filename('$1_t', 'name')`};
+snippet typedef enum
+	typedef enum {
+		${1:/* data ... */}
+	} ${2:/* enum_name */};
 # Struct
 snippet st
-	struct ${1:`Filename('$1_t', 'name')`}
-	{
+	struct ${1:`Filename('$1_t', 'name')`} {
 		${2:/* data */}
 	} ${3: /* optional variable list */};${4}
 snippet str
-	struct ${1:`Filename('$1_t', 'name')`}
-	{
+	struct ${1:`Filename('$1_t', 'name')`} {
 		${2:/* data */}
 	} ${3: /* optional variable list */};${4}
 snippet stru
-	struct ${1:`Filename('$1_t', 'name')`}
-	{
+	struct ${1:`Filename('$1_t', 'name')`} {
 		${2:/* data */}
 	} ${3: /* optional variable list */};${4}
 snippet struc
-	struct ${1:`Filename('$1_t', 'name')`}
-	{
+	struct ${1:`Filename('$1_t', 'name')`} {
 		${2:/* data */}
 	} ${3: /* optional variable list */};${4}
 snippet struct
-	struct ${1:`Filename('$1_t', 'name')`}
-	{
+	struct ${1:`Filename('$1_t', 'name')`} {
 		${2:/* data */}
 	} ${3: /* optional variable list */};${4}
-# Typdef enum
-snippet tde
-	typedef enum
-	{
-		${1:/* data */}
-	} ${2:foo};
-snippet typedef e
-	typedef enum
-	{
-		${1:/* data */}
-	} ${2:foo};
-snippet typedef en
-	typedef enum
-	{
-		${1:/* data */}
-	} ${2:foo};
-snippet typedef enu
-	typedef enum
-	{
-		${1:/* data */}
-	} ${2:foo};
-snippet typedef enum
-	typedef enum
-	{
-		${1:/* data */}
-	} ${2:foo};
+# enum
+snippet en
+	enum ${1: /* enum_name */} {
+		${2:/* data ... */}
+	} ${3};
+snippet enu
+	enum ${1: /* enum_name */} {
+		${2:/* data ... */}
+	} ${3};
+snippet enum
+	enum ${1: /* enum_name */} {
+		${2:/* data ... */}
+	} ${3};
 # sizeof
+snippet si
+	sizeof(${1:data})
 snippet siz
 	sizeof(${1:data})
 snippet size
@@ -604,6 +510,11 @@ snippet print
 snippet printf
 	printf("${1}"${2});${3}
 snippet printf(
+	printf("${1}"${2}
+# printf typo
+snippet prit
+	printf("${1}"${2}
+snippet pritf
 	printf("${1}"${2}
 # scanf
 snippet sc
@@ -643,9 +554,31 @@ snippet unsign
 snippet unsigne
 	unsigned
 # omp
-snippet omp
-	#pragma omp parallel
-	{
-		int id = omp_get_thread_num();
-		${1}
+snippet omp for
+	#pragma omp parallel for
+		for (${1:/* condition ... */}) {
+			${2:/* code ... */}
+		}
+snippet omp for num_threads
+	#pragma omp parallel for num_threads(omp_get_max_threads())
+		for (${1:/* condition ... */}) {
+			${2:/* code ... */}
+		}
+snippet omp parallel
+	#pragma omp parallel {
+		${1:/* code ... */}
+	}
+snippet omp parallel num_threads
+	#pragma omp parallel num_threads(omp_get_max_threads()) {
+		${1:/* code ... */}
+	}
+snippet omp check
+	#ifdef _OPENMP
+		fprintf(stdout, "Compiled with openmp\n");
+	#endif
+snippet omp barrier
+	#pragma omp barrier
+snippet omp single
+	#pragma omp single {
+		${1:/* code ... */}
 	}
