@@ -582,3 +582,23 @@ snippet omp single
 	#pragma omp single {
 		${1:/* code ... */}
 	}
+# quick snippets
+snippet readfile
+	FILE* file = fopen("${1:file_name.txt}", "r");
+	char* content = NULL;
+	size_t file_length = 0;
+	char c;
+	if (file) {
+		while ((fgetc(file)) != EOF) file_length ++;
+		content = (char*) malloc(sizeof(char) * (file_length+1));
+		memset(content, '\0', file_length);
+		rewind(file);
+		file_length = 0;
+		while ((c = fgetc(file)) != EOF) {
+			content[file_length] = c;
+			file_length ++;
+		}
+		printf("%s", content);
+		free(content);
+		fclose(file);
+	}
