@@ -1,13 +1,13 @@
 # Read File Into Vector
 snippet readfile
-	std::vector<char> v;
-	if(FILE *${2:fp} = fopen(${1:"filename"}, "r"))
-	{
-		char buf[1024];
-		while (size_t len = fread(buf, 1, sizeof(buf), $2))
-			v.insert(v.end(), buf, buf + len);
-		fclose($2);
-	}${3}
+	std::ifstream file("${1:inputFile.txt}", std::ios::in);
+	std::string content;
+	if (file.is_open()) {
+		for (std::string line ; getline(file, line) ;)
+		content += line + "\n";
+		std::cout << content << std::endl;
+		file.close();
+	}
 # std::map
 snippet map
 	std::map<${1:key}, ${2:value}> map${3};
@@ -16,15 +16,38 @@ snippet vector
 	std::vector<${1:char}> v${2};
 # Namespace
 snippet ns
-	namespace ${1:`Filename('', 'my')`}
-	{
+	namespace ${1:`Filename('', 'my')`} {
+		${2}
+	} /* $1 */
+snippet nam
+	namespace ${1:`Filename('', 'my')`} {
+		${2}
+	} /* $1 */
+snippet name
+	namespace ${1:`Filename('', 'my')`} {
+		${2}
+	} /* $1 */
+snippet names
+	namespace ${1:`Filename('', 'my')`} {
+		${2}
+	} /* $1 */
+snippet namesp
+	namespace ${1:`Filename('', 'my')`} {
+		${2}
+	} /* $1 */
+snippet namespa
+	namespace ${1:`Filename('', 'my')`} {
+		${2}
+	} /* $1 */
+snippet namespac
+	namespace ${1:`Filename('', 'my')`} {
 		${2}
 	} /* $1 */
 snippet namespace
-	namespace ${1:`Filename('', 'my')`}
-	{
+	namespace ${1:`Filename('', 'my')`} {
 		${2}
 	} /* $1 */
+# using namespace
 snippet usi
 	using namespace ${1:std};${2}
 snippet usin
@@ -33,8 +56,7 @@ snippet using
 	using namespace ${1:std};${2}
 # Class
 snippet cl
-	class ${1:`Filename('$1_t', 'name')`}
-	{
+	class ${1:`Filename('$1_t', 'name')`} {
 	public:
 		$1 (${2:arguments});
 		virtual ~$1 ();
@@ -42,8 +64,7 @@ snippet cl
 		${3:/* data */}
 	};
 snippet cla
-	class ${1:`Filename('$1_t', 'name')`}
-	{
+	class ${1:`Filename('$1_t', 'name')`} {
 	public:
 		$1 (${2:arguments});
 		virtual ~$1 ();
@@ -51,8 +72,7 @@ snippet cla
 		${3:/* data */}
 	};
 snippet clas
-	class ${1:`Filename('$1_t', 'name')`}
-	{
+	class ${1:`Filename('$1_t', 'name')`} {
 	public:
 		$1 (${2:arguments});
 		virtual ~$1 ();
@@ -60,8 +80,7 @@ snippet clas
 		${3:/* data */}
 	};
 snippet class
-	class ${1:`Filename('$1_t', 'name')`}
-	{
+	class ${1:`Filename('$1_t', 'name')`} {
 	public:
 		$1 (${2:arguments});
 		virtual ~$1 ();
@@ -71,21 +90,3 @@ snippet class
 # cout
 snippet cout
 	cout << "${1}" << endl;
-# special include
-snippet include standard IO
-	#include <iostream>
-	#include <stdio.h>
-snippet include opencv2
-	#include <opencv2/core/core.hpp>
-	#include <opencv2/highgui/highgui.hpp>
-	#include <opencv2/imgproc/imgproc.hpp>
-	#include <opencv2/objdetect/objdetect.hpp>
-snippet include gl
-	#include <GL/glew.h>
-	#include <GL/freeglut.h>
-snippet include magick++
-	#include <ImageMagick/Magick++.h>
-snippet include png
-	#include <png.h>
-snippet include omp
-	#include <omp.h>
