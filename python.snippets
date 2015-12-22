@@ -1,5 +1,5 @@
 snippet #!
-	#!/usr/bin/python
+	#!/usr/bin/env python
 
 snippet imp
 	import ${1:module}
@@ -134,8 +134,8 @@ snippet pygame
 	# init
 	status = pygame.init()
 	if status[1] != 0:
-	    print("ERROR: fail to init PyGame")
-	    quit()
+		print("ERROR: fail to init PyGame")
+		quit()
 
 	# game data
 	FPS = 60
@@ -150,13 +150,13 @@ snippet pygame
 	clock = pygame.time.Clock()
 
 	while running:
-	    for event in pygame.event.get():
-	        if event.type == pygame.QUIT:
-	            running = False
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				running = False
 
-	    # update the screen
-	    pygame.display.update()
-	    clock.tick(FPS)
+		# update the screen
+		pygame.display.update()
+		clock.tick(FPS)
 
 	# exit
 	pygame.quit()
